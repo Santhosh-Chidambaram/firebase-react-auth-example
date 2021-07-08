@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth, generateUserDocument } from "../firebase";
-
+import { useHistory } from "react-router-dom";
+import { auth, generateUserDocument, getUserDocument } from "../firebase";
+import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -10,28 +11,38 @@ export function useAuth() {
 export const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   async function signup(formValue) {
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        formValue.email,
-        formValue.password
-      );
-      return generateUserDocument(user, {
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-      });
-    } catch (error) {
-      return error;
-    }
+    const { firstName, lastName, email, password } = formValue;
+    const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    const userDoc = await generateUserDocument(user, { firstName, lastName });
+    setCurrentUser(userDoc);
   }
 
   async function login(email, password) {
-    return await auth.signInWithEmailAndPassword(email, password);
+    const { user } = await auth.signInWithEmailAndPassword(email, password);
+    const userDoc = await getUserDocument(user.uid);
+    setCurrentUser(userDoc);
   }
 
-  function logout() {
-    return auth.signOut();
+  async function signInWithGoogle(user) {
+    const userDoc = await generateUserDocument(user);
+    setCurrentUser(userDoc);
+  }
+
+  async function handleResetPassword(auth, actionCode, continueUrl, lang){
+
+  }
+
+  async function logout() {
+    try {
+      const response = await auth.signOut();
+      setCurrentUser(null);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function resetPassword(email) {
@@ -46,16 +57,6 @@ export const AuthProvider = (props) => {
     return currentUser.updatePassword(password);
   }
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
-      await generateUserDocument(userAuth);
-      setCurrentUser(userAuth);
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
-
   const value = {
     currentUser,
     login,
@@ -64,7 +65,10 @@ export const AuthProvider = (props) => {
     resetPassword,
     updateEmail,
     updatePassword,
+    signInWithGoogle,
   };
+
+  useEffect(() => {}, [currentUser]);
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>

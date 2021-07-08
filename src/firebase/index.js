@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+
 // const firebaseConfig = {
 //   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
 //   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -25,12 +26,7 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-const FacebookAuth = new firebase.auth.FacebookAuthProvider();
-
-export const signInWithGoogle = async () => {
-  return auth.signInWithPopup(provider);
-};
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
@@ -49,9 +45,11 @@ export const generateUserDocument = async (user, additionalData) => {
       console.error("Error creating user document", error);
     }
   }
-  return getUserDocument(user.uid);
+  const userDoc = await getUserDocument(user.uid);
+  return userDoc;
 };
-const getUserDocument = async (uid) => {
+
+export const getUserDocument = async (uid) => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
@@ -63,3 +61,5 @@ const getUserDocument = async (uid) => {
     console.error("Error fetching user", error);
   }
 };
+
+

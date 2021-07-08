@@ -29,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const { currentUser, logout } = useAuth();
+  const {
+    email = "",
+    firstName = "",
+    lastName = "",
+    photoURL = "",
+    uid = "",
+  } = currentUser;
   const classes = useStyles();
   const defaultAvatar =
     "https://yorktonrentals.com/wp-content/uploads/2017/06/usericon.png";
@@ -43,18 +50,29 @@ const Home = () => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Avatar
               alt="Remy Sharp"
-              src={currentUser.photoURL ? currentUser.photoURL : defaultAvatar}
+              src={photoURL ? photoURL : defaultAvatar}
             />
-            <strong>Email:</strong> {currentUser.email}
+            <div>
+              <div>
+                <strong>email</strong> : {email}
+              </div>
+              <div>
+                <strong>First Name</strong> : {firstName}
+              </div>
+              <div>
+                <strong>Last Name</strong> : {lastName}
+              </div>
+            </div>
             <div className="w-100 text-center mt-2">
               <Button
                 variant="contained"
-                onClick={() => {
-                  logout();
+                onClick={async () => {
+                  await logout();
                 }}
               >
                 Log Out

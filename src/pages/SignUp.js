@@ -13,7 +13,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../components/Logo";
 import { useAuth } from "../context/AuthContext";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { generateUserDocument } from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,11 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
   const { signup, currentUser } = useAuth();
-  const history = useHistory();
-  console.log(currentUser);
   //Register Form Fields
   const [registerForm, setRegisterForm] = useState({
     email: "",
@@ -60,11 +59,9 @@ export default function SignUp() {
   //Form Submit handler
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(registerForm);
     try {
-      const result = await signup(registerForm);
-      console.log(result);
-      history.replace("/");
+      const user = await signup(registerForm);
+      props.history.push("/");
     } catch (error) {
       // setError("Error signing in with password and email!");
       console.error("Error signing in with password and email", error);

@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../components/Logo";
 import GoogleButton from "react-google-button";
-import { auth, signInWithGoogle } from "./../firebase/index";
+import { auth, googleProvider, signInWithGoogle } from "./../firebase/index";
 import Divider from "@material-ui/core/Divider";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
@@ -40,7 +40,7 @@ export default function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, currentUser } = useAuth();
+  const { login, signInWithGoogle } = useAuth();
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
@@ -53,11 +53,9 @@ export default function SignIn(props) {
   };
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(email, password);
     try {
-      const result = await login(email, password);
-      console.log("Login", result);
-      props.history.replace("/");
+      await login(email, password);
+      props.history.push("/");
     } catch (error) {
       // setError("Error signing in with password and email!");
       console.error("Error signing in with password and email", error);
@@ -66,8 +64,9 @@ export default function SignIn(props) {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
-      props.history.replace("/");
+      const googleResponse = await auth.signInWithPopup(googleProvider);
+      await signInWithGoogle(googleResponse.user);
+      props.history.push("/");
     } catch (error) {
       console.error("Error google signin", error);
     }
