@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { auth, generateUserDocument, getUserDocument } from "../firebase";
-import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -10,8 +9,6 @@ export function useAuth() {
 
 export const AuthProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const history = useHistory();
 
   async function signup(formValue) {
     const { firstName, lastName, email, password } = formValue;
@@ -31,10 +28,6 @@ export const AuthProvider = (props) => {
     setCurrentUser(userDoc);
   }
 
-  async function handleResetPassword(auth, actionCode, continueUrl, lang){
-
-  }
-
   async function logout() {
     try {
       const response = await auth.signOut();
@@ -45,26 +38,11 @@ export const AuthProvider = (props) => {
     }
   }
 
-  function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
-  }
-
-  function updateEmail(email) {
-    return currentUser.updateEmail(email);
-  }
-
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
-  }
-
   const value = {
     currentUser,
     login,
     signup,
     logout,
-    resetPassword,
-    updateEmail,
-    updatePassword,
     signInWithGoogle,
   };
 

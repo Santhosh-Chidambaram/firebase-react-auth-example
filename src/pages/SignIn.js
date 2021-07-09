@@ -11,8 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../components/Logo";
 import GoogleButton from "react-google-button";
-import { auth, googleProvider, signInWithGoogle } from "./../firebase/index";
-import Divider from "@material-ui/core/Divider";
+import { auth, googleProvider } from "./../firebase/index";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
@@ -79,6 +78,14 @@ export default function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        <Box p={1} m={1} width="100%">
+          <GoogleButton
+            onClick={handleGoogleSignIn}
+            style={{
+              width: "100%",
+            }}
+          />
+        </Box>
         <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
           <TextField
             variant="outlined"
@@ -140,18 +147,6 @@ export default function SignIn(props) {
               </Link>
             </Grid>
           </Grid>
-
-          <Divider style={{ margin: "15px 0px" }} />
-
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            p={1}
-            m={1}
-          >
-            <GoogleButton onClick={handleGoogleSignIn} />
-          </Box>
         </form>
       </div>
     </Container>

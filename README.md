@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# React Firebase Auth
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Using Firebase Credentials
+
+- Create a new file called .env
+- Copy Paste the below code
+- Replace the <> with your credentials
+- Then type npm start
+```
+REACT_APP_FIREBASE_API_KEY="<Your Key>"
+REACT_APP_FIREBASE_AUTH_DOMAIN="<Your Domain>"
+REACT_APP_FIREBASE_DATABASE_URL="<DB URL>"
+REACT_APP_FIREBASE_PROJECT_ID="<Project Id>"
+REACT_APP_FIREBASE_STORAGE_BUCKET="<Bucket Id>"
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID="<Sender Id>"
+REACT_APP_FIREBASE_APP_ID="<AppID>"
+
+```
 
 ## Available Scripts
 
@@ -45,26 +62,3 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

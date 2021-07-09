@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../context/AuthContext";
-import { useHistory, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -41,7 +38,6 @@ export default function ForgotPassword() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const { resetPassword } = useAuth();
-  const history = useHistory();
   const [open, setOpen] = React.useState(false);
 
   const handleFormSubmit = async (event) => {
@@ -54,9 +50,6 @@ export default function ForgotPassword() {
     }
   };
 
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -105,7 +98,15 @@ export default function ForgotPassword() {
 
           <Grid container>
             <Grid item>
-              <Link to="/signin">{"back to sign in page"}</Link>
+              <Link
+                to="/signin"
+                style={{
+                  textDecoration: "none",
+                  color: "#4285F4",
+                }}
+              >
+                Back to sign in page
+              </Link>
             </Grid>
           </Grid>
         </form>

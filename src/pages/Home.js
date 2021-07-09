@@ -34,7 +34,6 @@ const Home = () => {
     firstName = "",
     lastName = "",
     photoURL = "",
-    uid = "",
   } = currentUser;
   const classes = useStyles();
   const defaultAvatar =
