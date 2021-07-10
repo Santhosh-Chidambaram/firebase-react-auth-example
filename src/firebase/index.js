@@ -3,8 +3,6 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  appId: "1:1096431854400:web:82ec251e18d6fa8d0690a5",
-  measurementId: "G-K9GDJ2RHV8",
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,

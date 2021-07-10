@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import Logo from "../components/Logo";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import SnackbarComponent from "./../components/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +44,11 @@ export default function SignUp(props) {
     lastName: "",
   });
 
+  const [alertState, setAlertState] = React.useState({
+    open: false,
+    message: "",
+  });
+
   //Input Change Handler
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
@@ -60,8 +66,23 @@ export default function SignUp(props) {
       props.history.push("/");
     } catch (error) {
       // setError("Error signing in with password and email!");
-      console.error("Error signing in with password and email", error);
+      console.error("Error signing Ip with password and email", error);
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: error.message,
+      });
     }
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertState({
+      ...alertState,
+      open: false,
+      message: "",
+    });
   };
 
   return (
@@ -69,6 +90,11 @@ export default function SignUp(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Logo />
+        <SnackbarComponent
+          open={alertState.open}
+          handleClose={handleClose}
+          message={alertState.message}
+        />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

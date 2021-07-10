@@ -7,18 +7,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { auth } from "../firebase";
+import SnackbarComponent from "./../components/Snackbar";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -40,7 +37,11 @@ export default function PasswordReset(props) {
   const classes = useStyles();
   const { login } = useAuth();
   const history = useHistory();
-  const [open, setOpen] = React.useState(false);
+  const [alertState, setAlertState] = React.useState({
+    open: false,
+    message: "",
+    type: "success",
+  });
   const [passwordForm, setPasswordForm] = React.useState({
     password: "",
     repeatPassword: "",
@@ -57,23 +58,37 @@ export default function PasswordReset(props) {
       .verifyPasswordResetCode(oobCode)
       .then(async (email) => {
         await auth.confirmPasswordReset(oobCode, passwordForm.password);
-        setOpen(true);
+        setAlertState({
+          ...alertState,
+          open: true,
+          message: "Your Password has been resetted successfully",
+          type: "success",
+        });
         await login(email, passwordForm.password);
-        history.push("/");
+        setTimeout(() => {
+          history.push("/");
+        }, 3000);
       })
       .catch((error) => {
         console.log("password verfication error");
+        setAlertState({
+          ...alertState,
+          open: true,
+          message: error.message,
+          type: "error",
+        });
       });
   };
-
- 
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    setAlertState({
+      ...alertState,
+      open: false,
+      message: "",
+    });
   };
 
   const onChangeHandler = (event) => {
@@ -88,11 +103,12 @@ export default function PasswordReset(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success">
-            Your Password has been resetted successfully.
-          </Alert>
-        </Snackbar>
+        <SnackbarComponent
+          open={alertState.open}
+          handleClose={handleClose}
+          message={alertState.message}
+          type={alertState.type}
+        />
         <Typography component="h1" variant="h5">
           Reset Password
         </Typography>
@@ -103,18 +119,7 @@ export default function PasswordReset(props) {
             margin="normal"
             fullWidth
             name="password"
-            label="New Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={onChangeHandler}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            name="repeatPassword"
-            label="Repeat Password"
+            label="Enter New Password"
             type="password"
             id="password"
             autoComplete="current-password"

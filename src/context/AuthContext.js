@@ -38,12 +38,17 @@ export const AuthProvider = (props) => {
     }
   }
 
+  function resetPassword(email) {
+    return auth.sendPasswordResetEmail(email);
+  }
+
   const value = {
     currentUser,
     login,
     signup,
     logout,
     signInWithGoogle,
+    resetPassword,
   };
 
   useEffect(() => {}, [currentUser]);

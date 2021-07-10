@@ -7,16 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../context/AuthContext";
-import {  Link } from "react-router-dom";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
+import { Link } from "react-router-dom";
+import SnackbarComponent from "./../components/Snackbar";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(10),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -38,35 +34,52 @@ export default function ForgotPassword() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const { resetPassword } = useAuth();
-  const [open, setOpen] = React.useState(false);
-
+  const [alertState, setAlertState] = React.useState({
+    open: false,
+    message: "",
+    type: "success",
+  });
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
       await resetPassword(email);
-      setOpen(true);
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: "Password Reset Link has been sent to your email",
+        type: "success",
+      });
     } catch (error) {
       console.log(error);
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: error.message,
+        type: "error",
+      });
     }
   };
-
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    setAlertState({
+      ...alertState,
+      open: false,
+      message: "",
+    });
   };
   return (
     <Container component="main" maxWidth="xs">
+      <SnackbarComponent
+        open={alertState.open}
+        handleClose={handleClose}
+        message={alertState.message}
+        type={alertState.type}
+      />
       <CssBaseline />
       <div className={classes.paper}>
-        <Snackbar open={open} autoHideDuration={8000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success">
-            Password Reset Link has been sent to your email
-          </Alert>
-        </Snackbar>
         <Typography component="h1" variant="h5">
           Forgot Password
         </Typography>

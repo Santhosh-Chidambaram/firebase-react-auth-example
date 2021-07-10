@@ -14,6 +14,7 @@ import GoogleButton from "react-google-button";
 import { auth, googleProvider } from "./../firebase/index";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import SnackbarComponent from "../components/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,7 +41,11 @@ export default function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, signInWithGoogle } = useAuth();
-
+  const [alertState, setAlertState] = React.useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
 
@@ -58,6 +63,11 @@ export default function SignIn(props) {
     } catch (error) {
       // setError("Error signing in with password and email!");
       console.error("Error signing in with password and email", error);
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: error.message,
+      });
     }
   };
 
@@ -68,13 +78,36 @@ export default function SignIn(props) {
       props.history.push("/");
     } catch (error) {
       console.error("Error google signin", error);
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: error.message,
+        type: "warning",
+      });
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertState({
+      ...alertState,
+      open: false,
+      message: "",
+    });
   };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Logo />
+        <SnackbarComponent
+          open={alertState.open}
+          handleClose={handleClose}
+          message={alertState.message}
+          type={alertState.type}
+        />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
