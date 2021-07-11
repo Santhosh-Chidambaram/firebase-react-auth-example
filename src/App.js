@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import RouteProivder from "./routes/RouteProvider";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-
+import "./app.css";
 const primaryTheme = createTheme({
   palette: {
     primary: {

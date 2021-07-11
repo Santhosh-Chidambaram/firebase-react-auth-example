@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+ol {
+  list-style: none;
+
+  counter-reset: my-awesome-counter;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+ol li::before {
+  content: counter(my-awesome-counter) ". ";
+  color: black;
+  font-weight: bold;
+  padding-right: 10px;
+}
