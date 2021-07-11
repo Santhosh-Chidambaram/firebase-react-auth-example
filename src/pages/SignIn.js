@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -41,6 +41,7 @@ export default function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, signInWithGoogle } = useAuth();
+  const [rememberMe, setRememberMe] = useState(false);
   const [alertState, setAlertState] = React.useState({
     open: false,
     message: "",
@@ -59,6 +60,14 @@ export default function SignIn(props) {
     event.preventDefault();
     try {
       await login(email, password);
+      if (rememberMe) {
+        const credentials = new window.PasswordCredential({
+          id: email,
+          name: email,
+          password: password,
+        });
+        navigator.credentials.store(credentials);
+      }
       props.history.push("/");
     } catch (error) {
       // setError("Error signing in with password and email!");
@@ -97,6 +106,22 @@ export default function SignIn(props) {
       message: "",
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const cred = await navigator.credentials.get({
+          password: true,
+        });
+        if (cred) {
+          setRememberMe(true);
+        }
+        console.log(cred);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -143,7 +168,16 @@ export default function SignIn(props) {
             onChange={onChangeHandler}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                value="remember"
+                color="primary"
+                checked={rememberMe}
+                onChange={(event) => {
+                  setRememberMe(event.target.checked);
+                }}
+              />
+            }
             label="Remember me"
           />
           <Button

@@ -12,7 +12,6 @@ import queryString from "query-string";
 import { auth } from "../firebase";
 import SnackbarComponent from "./../components/Snackbar";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(12),
@@ -54,30 +53,39 @@ export default function PasswordReset(props) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    auth
-      .verifyPasswordResetCode(oobCode)
-      .then(async (email) => {
-        await auth.confirmPasswordReset(oobCode, passwordForm.password);
-        setAlertState({
-          ...alertState,
-          open: true,
-          message: "Your Password has been resetted successfully",
-          type: "success",
+    try {
+      auth
+        .verifyPasswordResetCode(oobCode)
+        .then(async (email) => {
+          await auth.confirmPasswordReset(oobCode, passwordForm.password);
+          setAlertState({
+            ...alertState,
+            open: true,
+            message: "Your Password has been resetted successfully",
+            type: "success",
+          });
+          await login(email, passwordForm.password);
+          setTimeout(() => {
+            history.push("/");
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log("password verfication error");
+          setAlertState({
+            ...alertState,
+            open: true,
+            message: error.message,
+            type: "error",
+          });
         });
-        await login(email, passwordForm.password);
-        setTimeout(() => {
-          history.push("/");
-        }, 3000);
-      })
-      .catch((error) => {
-        console.log("password verfication error");
-        setAlertState({
-          ...alertState,
-          open: true,
-          message: error.message,
-          type: "error",
-        });
+    } catch (error) {
+      setAlertState({
+        ...alertState,
+        open: true,
+        message: error.message,
+        type: "error",
       });
+    }
   };
 
   const handleClose = (event, reason) => {
