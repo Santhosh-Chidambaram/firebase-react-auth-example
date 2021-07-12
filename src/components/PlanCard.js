@@ -1,15 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import { ReactComponent as CheckFilled } from "../assets/checkFilled.svg";
+import { ReactComponent as CheckOutlined } from "../assets/checkOutlined.svg";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flex: 1,
+    position: "relative",
     minWidth: 200,
     minHeight: 180,
     padding: 0,
@@ -58,6 +58,7 @@ const PlanCard = ({
   notes = "A Sample Note",
   color = "blue",
   handlePlanSelect = {},
+  selected = true,
 }) => {
   const classes = useStyles();
 
@@ -67,6 +68,18 @@ const PlanCard = ({
       style={{ backgroundColor: color, cursor: "pointer" }}
       onClick={handlePlanSelect}
     >
+      {selected && (
+        <CheckFilled
+          fill="#fff"
+          width="25"
+          height="25"
+          style={{
+            position: "absolute",
+            top: 5,
+            right: 10,
+          }}
+        />
+      )}
       <CardContent className={classes.cardContent}>
         <Typography className={classes.title} variant="h4" component="h4">
           {title}
