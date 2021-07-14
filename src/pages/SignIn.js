@@ -13,7 +13,7 @@ import Logo from "../components/Logo";
 import GoogleButton from "react-google-button";
 import { auth, googleProvider } from "./../firebase/index";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SnackbarComponent from "../components/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ export default function SignIn(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, signInWithGoogle } = useAuth();
+  const { login, signInWithGoogle, currentUser } = useAuth();
   const [alertState, setAlertState] = React.useState({
     open: false,
     message: "",
@@ -97,6 +97,9 @@ export default function SignIn(props) {
       message: "",
     });
   };
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

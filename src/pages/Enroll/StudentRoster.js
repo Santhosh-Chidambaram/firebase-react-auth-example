@@ -6,6 +6,8 @@ import { useEnrollStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { EnrollContext } from "./index";
+import BackButton from "../../components/BackButton";
+import { useEnrollContext } from "../../context/EnrollContext";
 
 const UploadRoasterRow = ({ roasterItem, updateStudentRoaster }) => {
   const classes = useEnrollStyles();
@@ -28,8 +30,12 @@ const UploadRoasterRow = ({ roasterItem, updateStudentRoaster }) => {
     }
   };
   return (
-    <Grid item className={classes.rowContainer} xs={10}>
+    <Grid item className={classes.rowContainer} xs={12} md={10}>
       <TextField
+        style={{
+          marginRight: "20px",
+          minWidth: 181,
+        }}
         id="standard-basic"
         label="Enter Class Name"
         value={roasterItem.className}
@@ -73,7 +79,8 @@ const StudentRoster = () => {
     enrollmentForm,
     handleAddClass,
     handleSRContinue,
-  } = React.useContext(EnrollContext);
+  } = useEnrollContext();
+
 
   return (
     <Container className={classes.root}>
@@ -90,7 +97,7 @@ const StudentRoster = () => {
             have an electronic copy, just upload a legible photo of the sign in
             sheet of the class. We will work something out on our end.
           </Typography>
-          <Grid container>
+          <Grid container style={{ marginTop: 20 }}>
             {enrollmentForm.studentRoaster &&
               enrollmentForm.studentRoaster.map((item, index) => {
                 return (
@@ -103,7 +110,10 @@ const StudentRoster = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} className={classes.footer}>
+        <Grid item xs={12} className={classes.footerSb}>
+          <div>
+            <BackButton />
+          </div>
           <div>
             <Button
               color="secondary"
@@ -117,8 +127,7 @@ const StudentRoster = () => {
             >
               Add Class
             </Button>
-          </div>
-          <div>
+
             <Button
               color="primary"
               className={classes.transparentButton}

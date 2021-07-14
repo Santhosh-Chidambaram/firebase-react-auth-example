@@ -9,7 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home";
 import ForgotPassword from "../pages/ForgotPassword";
 import PasswordReset from "../pages/PasswordReset";
-import EnrollPage from "../pages/Enroll";
+import EnrollIndexPage from "../pages/Enroll";
 
 // Route Names
 import {
@@ -28,7 +28,7 @@ const RouteProvider = () => {
       <Route component={SignUp} path={signUpRoute} />
       <Route component={ForgotPassword} path={forgotPasswordRoute} />
       <Route component={PasswordReset} path={passwordResetRoute} />
-      <Route component={EnrollPage} path={enrollPageRoute} />
+      <Route component={EnrollIndexPage} path={enrollPageRoute} />
     </Switch>
   );
 };

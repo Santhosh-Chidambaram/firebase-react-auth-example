@@ -8,7 +8,7 @@ export const useEnrollStyles = makeStyles((theme) => ({
     alignContent: "center",
     justifyContent: "center",
     [theme.breakpoints.down("sm")]: {
-      height: "100%",
+      height: "fit-content",
     },
   },
   header: {
@@ -76,5 +76,10 @@ export const useEnrollStyles = makeStyles((theme) => ({
     display: "flex",
     alignItem: "flex-end",
     justifyContent: "flex-end",
+  },
+  footerSb: {
+    display: "flex",
+    alignItem: "center",
+    justifyContent: "space-between",
   },
 }));

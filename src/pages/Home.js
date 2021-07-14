@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 
@@ -9,6 +9,7 @@ import { useAuth } from "../context/AuthContext";
 import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { getEnrolledDocument } from "./../firebase/index";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,17 +28,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = () => {
-  const { currentUser, logout } = useAuth();
+const Home = (props) => {
+  const { currentUser, logout, isUserEnrolled } = useAuth();
   const {
     email = "",
     firstName = "",
     lastName = "",
     photoURL = "",
+    uid,
   } = currentUser;
   const classes = useStyles();
   const defaultAvatar =
     "https://yorktonrentals.com/wp-content/uploads/2017/06/usericon.png";
+
+  useEffect(() => {
+    if (uid) {
+      (async () => {
+        const isEnrolled = await getEnrolledDocument(uid);
+        if (!isEnrolled) {
+          props.history.replace("/enroll");
+        }
+      })();
+    }
+  }, [uid]);
 
   return (
     <Container maxWidth="sm">

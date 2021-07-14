@@ -19,6 +19,7 @@ const App = () => {
   return (
     <Router>
       <AuthProvider>
+        
         <ThemeProvider theme={primaryTheme}>
           <RouteProivder />
         </ThemeProvider>

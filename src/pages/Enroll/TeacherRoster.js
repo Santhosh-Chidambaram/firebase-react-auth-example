@@ -3,12 +3,13 @@ import React, { useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useEnrollStyles } from "./styles";
-import { Button } from "@material-ui/core";
 import { EnrollContext } from "./index";
-
+import Button from "@material-ui/core/Button";
+import { useEnrollContext } from "../../context/EnrollContext";
 const TeacherRoaster = () => {
   const classes = useEnrollStyles();
-  const { handleSetForm, enrollmentForm } = React.useContext(EnrollContext);
+  const { handleSetForm, enrollmentForm, handleTRContinue } =
+    useEnrollContext();
   const inputRef = useRef();
 
   const handleUploadBtnClick = (event) => {
@@ -22,7 +23,7 @@ const TeacherRoaster = () => {
     if (inputRef && inputRef.current && event.target.files[0]) {
       console.log(event.target.files[0]);
       handleSetForm({
-        name: "teacher_roaster",
+        name: "teacherRoaster",
         value: event.target.files[0],
       });
     }
@@ -56,7 +57,7 @@ const TeacherRoaster = () => {
               variant="h6"
               component="h6"
             >
-              {enrollmentForm?.teacher_roaster?.name}
+              {enrollmentForm?.teacherRoaster?.name}
             </Typography>
             <Button
               variant="contained"
@@ -73,6 +74,17 @@ const TeacherRoaster = () => {
           <Typography className={classes.caption} variant="h6" component="h6">
             On completion of upload, transition to next screen
           </Typography>
+        </Grid>
+        <Grid item xs={12} className={classes.footer}>
+          <div style={{ display: "inline-block" }}>
+            <Button
+              color="primary"
+              className={classes.transparentButton}
+              onClick={handleTRContinue}
+            >
+              Continue
+            </Button>
+          </div>
         </Grid>
       </Grid>
     </Container>

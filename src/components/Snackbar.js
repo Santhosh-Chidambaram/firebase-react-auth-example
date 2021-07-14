@@ -10,7 +10,7 @@ const SnackbarComponent = ({
   open,
   message,
   handleClose,
-  duration = 5000,
+  duration = 3000,
   type = "error",
 }) => {
   return (

@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,7 +16,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const generateUserDocument = async (user, additionalData) => {
@@ -49,5 +49,68 @@ export const getUserDocument = async (uid) => {
     };
   } catch (error) {
     console.error("Error fetching user", error);
+  }
+};
+
+export const generateEnrollDocument = async (uid, enrollmentData) => {
+  const enrollDoc = firestore.doc(`enrollements/${uid}`);
+  const snapshot = await enrollDoc.get();
+
+  if (!snapshot.exists) {
+    const { plan, studentRoaster, teacherRoaster } = enrollmentData;
+    const studentRoasters = [];
+    studentRoaster.map(async (item) => {
+      console.log("File", item.roasterFile);
+      try {
+        const studentRoasterUrl = await handleUploadToBucket(
+          item.roasterFile,
+          uid
+        );
+        studentRoasters.push({
+          className: item.className,
+          studentRoasterUrl,
+        });
+      } catch (error) {}
+    });
+
+    const teacherRoasterUrl = await handleUploadToBucket(teacherRoaster);
+
+    try {
+      await enrollDoc.set({
+        plan,
+        studentRoasters,
+        teacherRoasterUrl,
+      });
+      console.log("Uploaded successfully");
+      return "success";
+    } catch (error) {
+      console.error("Error creating enrollment document", error);
+      return error;
+    }
+  }
+  throw new Error("EnrollMent Already Exists");
+};
+
+export const getEnrolledDocument = async (uid) => {
+  const enrollDocRef = firestore.doc(`enrollements/${uid}`);
+  const snapshot = await enrollDocRef.get();
+  if (snapshot.exists) {
+    console.log("snapshot exits");
+    return true;
+  }
+  console.log("Snapshot doesnt exits");
+  return false;
+};
+
+export const handleUploadToBucket = async (mediaFile, uid = "dsakda") => {
+  const storageRef = firebase.storage().ref();
+  const uploadRef = storageRef.child(mediaFile.name);
+  try {
+    await uploadRef.put(mediaFile);
+    console.log("success");
+    return await uploadRef.getDownloadURL();
+  } catch (error) {
+    console.log(error);
+    throw new Error("Upload Error");
   }
 };

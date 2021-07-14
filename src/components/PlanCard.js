@@ -87,7 +87,11 @@ const PlanCard = ({
         <Typography className={classes.amount}>${amount}</Typography>
         {notes.map((text) => {
           return (
-            <Typography variant="subtitle2" className={classes.noteText}>
+            <Typography
+              key={text}
+              variant="subtitle2"
+              className={classes.noteText}
+            >
               {text}
             </Typography>
           );

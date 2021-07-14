@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth, generateUserDocument, getUserDocument } from "../firebase";
+import {
+  auth,
+  generateUserDocument,
+  getEnrolledDocument,
+  getUserDocument,
+} from "../firebase";
 
 const AuthContext = createContext();
 
@@ -15,6 +20,10 @@ export const AuthProvider = (props) => {
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
     const userDoc = await generateUserDocument(user, { firstName, lastName });
     setCurrentUser(userDoc);
+  }
+
+  async function isUserEnrolled() {
+    return await getEnrolledDocument();
   }
 
   async function login(email, password) {
@@ -49,9 +58,17 @@ export const AuthProvider = (props) => {
     logout,
     signInWithGoogle,
     resetPassword,
+    isUserEnrolled,
   };
 
-  useEffect(() => {}, [currentUser]);
+  useEffect(() => {
+    auth.onAuthStateChanged(async (userCred) => {
+      if (!currentUser && userCred !== null) {
+        const userDoc = await getUserDocument(userCred?.uid);
+        setCurrentUser(userDoc);
+      }
+    });
+  }, []);
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
