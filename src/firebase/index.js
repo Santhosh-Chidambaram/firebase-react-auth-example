@@ -52,43 +52,42 @@ export const getUserDocument = async (uid) => {
   }
 };
 
+const uploadArrayOfImages = (myArray) => {
+  const promises = myArray.map(async (item) => {
+    return {
+      className: item.className,
+      studentRoasterUrl: await handleUploadToBucket(item.roasterFile),
+    };
+  });
+  return Promise.all(promises);
+};
+
 export const generateEnrollDocument = async (uid, enrollmentData) => {
-  const enrollDoc = firestore.doc(`enrollements/${uid}`);
-  const snapshot = await enrollDoc.get();
+  try {
+    const enrollDoc = firestore.doc(`enrollements/${uid}`);
+    const snapshot = await enrollDoc.get();
+    let studentRoasters = [];
+    let teacherRoasterUrl;
+    if (!snapshot.exists) {
+      const { plan, studentRoaster, teacherRoaster } = enrollmentData;
 
-  if (!snapshot.exists) {
-    const { plan, studentRoaster, teacherRoaster } = enrollmentData;
-    const studentRoasters = [];
-    studentRoaster.map(async (item) => {
-      console.log("File", item.roasterFile);
-      try {
-        const studentRoasterUrl = await handleUploadToBucket(
-          item.roasterFile,
-          uid
-        );
-        studentRoasters.push({
-          className: item.className,
-          studentRoasterUrl,
-        });
-      } catch (error) {}
-    });
+      studentRoasters = await uploadArrayOfImages(studentRoaster);
 
-    const teacherRoasterUrl = await handleUploadToBucket(teacherRoaster);
+      teacherRoasterUrl = await handleUploadToBucket(teacherRoaster);
 
-    try {
+      console.log(studentRoasters, teacherRoasterUrl, plan);
       await enrollDoc.set({
         plan,
         studentRoasters,
         teacherRoasterUrl,
       });
-      console.log("Uploaded successfully");
-      return "success";
-    } catch (error) {
-      console.error("Error creating enrollment document", error);
-      return error;
+
+      return "Success";
     }
+    throw new Error("EnrollMent Already Exists");
+  } catch (error) {
+    console.log(error);
   }
-  throw new Error("EnrollMent Already Exists");
 };
 
 export const getEnrolledDocument = async (uid) => {
