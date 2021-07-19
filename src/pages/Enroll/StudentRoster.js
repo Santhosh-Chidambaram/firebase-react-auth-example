@@ -101,20 +101,20 @@ const StudentRoster = () => {
 
   return (
     <Container className={classes.root}>
-      <Grid container lg={10}>
-        <Grid item className={classes.header}>
+      <Grid md={8} lg={8}>
+        <Grid item className={classes.header1}>
           <Typography className={classes.heading} variant="h3" component="h4">
             Upload Student Roster
           </Typography>
         </Grid>
 
         <Grid container xs={12}>
-          <Typography className={classes.caption} variant="h6" component="h6">
+          <Typography className={classes.caption} variant="body1" component="h6">
             You can upload any file format (eg: xls, csv, pdf). Or, if you dont
             have an electronic copy, just upload a legible photo of the sign in
             sheet of the class. We will work something out on our end.
           </Typography>
-          <Grid container style={{ marginTop: 20 }}>
+          <Grid container style={{ marginTop: 40 }}>
             {enrollmentForm.studentRoster &&
               enrollmentForm.studentRoster.map((item, index) => {
                 return (

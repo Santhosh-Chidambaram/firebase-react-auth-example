@@ -8,20 +8,14 @@ import { useEnrollStyles } from "./styles";
 const FinalizePage = () => {
   const classes = useEnrollStyles();
   return (
-    <Container className={classes.root}>
-      <Grid container lg={10} direction="row" justifyContent="center">
-        <Grid item className={classes.header} xs={11}>
+    <Container className={classes.finalize}>
+      <Grid container md={8} lg={8} direction="row" justifyContent="center">
+        <Grid item className={classes.header} xs={12}>
           <Typography className={classes.heading} variant="h3" component="h4">
             You are all set.
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs={11}
-          style={{
-            paddingTop: 40,
-          }}
-        >
+        <Grid item xs={12}>
           <Typography
             className={classes.captionText}
             variant="h6"

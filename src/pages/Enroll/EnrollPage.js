@@ -9,15 +9,16 @@ import LoadingBackdrop from "./../../components/LoadingBackdrop";
 import { useEnrollContext } from "../../context/EnrollContext";
 import HeaderTab from "../../components/HeaderTab";
 const swiperViewStyle = {
-  overflowX: "hidden",
-  height: "100%",
+  height: "auto",
 };
 
 const swiperContainerStyle = {
-  height: "100%",
+  height: "auto",
 };
 
-const slideStyle = {};
+const slideStyle = {
+  height: "auto",
+};
 
 const EnrollPage = () => {
   const {
@@ -35,7 +36,7 @@ const EnrollPage = () => {
         message={alertState.message}
         type="error"
       />
-      <HeaderTab />
+      {currentIndex < 3 && <HeaderTab />}
       <SwipeableViews
         disabled={true}
         style={swiperViewStyle}

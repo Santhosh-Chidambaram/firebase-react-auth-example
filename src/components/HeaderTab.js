@@ -9,16 +9,26 @@ import { useEnrollContext } from "../context/EnrollContext";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    maxWidth: "800px",
+    maxWidth: "1200px",
     display: "flex",
     justifyContent: "center",
-    alignItems: "flex-end",
-    height: 100,
+    alignItems: "center",
+    height: 130,
     [theme.breakpoints.down("xs")]: {
-      display: "none",
+      height: 100,
     },
   },
+  paper: {
+    boxShadow: "none",
+  },
 }));
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`,
+  };
+}
 
 export default function HeaderTab() {
   const classes = useStyles();
@@ -40,19 +50,36 @@ export default function HeaderTab() {
           indicatorColor="primary"
           textColor="primary"
           centered
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="scrollable auto tabs example"
         >
-          <Tab label="Choose Plan" disabled={currentIndex > 2} />
           <Tab
-            label="Upload Student Roster"
-            disabled={currentIndex === 0 || currentIndex > 2}
+            label="Choose Plan"
+            disabled={currentIndex > 2}
+            style={{
+              margin: "0px 15px",
+            }}
+            {...a11yProps(0)}
           />
           <Tab
-            label="Upload Teacher Roster"
+            label="Student Roster"
+            style={{
+              margin: "0px 15px",
+            }}
+            disabled={currentIndex === 0 || currentIndex > 2}
+            {...a11yProps(1)}
+          />
+          <Tab
+            label="Teacher Roster"
+            style={{
+              margin: "0px 15px",
+            }}
             disabled={
               currentIndex === 1 || currentIndex === 0 || currentIndex > 2
             }
+            {...a11yProps(2)}
           />
-          <Tab label="Finalize Page" disabled={currentIndex < 2} />
         </Tabs>
       </Paper>
     </Container>

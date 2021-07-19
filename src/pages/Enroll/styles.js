@@ -11,14 +11,29 @@ export const useEnrollStyles = makeStyles((theme) => ({
       height: "fit-content",
     },
   },
+  finalize: {
+    padding: theme.spacing(3),
+    minHeight: "100%",
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    [theme.breakpoints.down("sm")]: {
+      height: "fit-content",
+    },
+  },
   header: {
     alignSelf: "center",
-    marginBottom: theme.spacing(2),
+    marginBottom: 20,
+  },
+  header1: {
+    alignSelf: "flex-start",
+    marginBottom: 20,
   },
   title: {
     width: "100%",
     fontWeight: "bold",
-    fontSize: 35,
+    fontSize: 33,
     [theme.breakpoints.down("sm")]: {
       textAlign: "center",
       fontSize: 30,
@@ -30,16 +45,22 @@ export const useEnrollStyles = makeStyles((theme) => ({
     },
   },
   listText: {
-    fontWeight: "500",
+    fontWeight: "550",
   },
   heading: {
-    fontWeight: "550",
+    width: "100%",
+    fontWeight: "bold",
+    fontSize: 33,
+
     marginBottom: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+      fontSize: 30,
+    },
   },
   caption: {
     opacity: 0.7,
     lineHeight: "1.5rem",
-    fontSize: 19,
   },
   captionText: {
     opacity: 0.7,
@@ -50,6 +71,8 @@ export const useEnrollStyles = makeStyles((theme) => ({
   uploadBtnWrapper: {
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
+    display: "flex",
+    justifyContent: "center",
   },
   uploadFile: {
     marginLeft: 10,
@@ -76,8 +99,7 @@ export const useEnrollStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   transparentButton: {
-    fontSize: 19,
-    fontWeight: "550",
+    fontSize: 18,
     textTransform: "capitalize",
   },
   footer: {

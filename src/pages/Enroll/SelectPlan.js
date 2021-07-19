@@ -16,11 +16,8 @@ const SelectPlan = () => {
     <Container className={classes.root} style={{ height: "fit-content" }}>
       <Grid md={9} lg={10}>
         <Grid
-          container
+          item
           className={classes.header}
-          style={{
-            height: 80,
-          }}
         >
           <Typography className={classes.title} variant="h3" component="h4">
             Choose Your Plan
