@@ -12,13 +12,16 @@ const SelectPlan = () => {
   const classes = useEnrollStyles();
   const { handleSetForm, enrollmentForm, moveForward } = useEnrollContext();
 
-  const handleContinue = () => {
-    moveForward();
-  };
   return (
     <Container className={classes.root} style={{ height: "fit-content" }}>
-      <Grid container lg={10}>
-        <Grid item className={classes.header}>
+      <Grid md={9} lg={10}>
+        <Grid
+          container
+          className={classes.header}
+          style={{
+            height: 80,
+          }}
+        >
           <Typography className={classes.title} variant="h3" component="h4">
             Choose Your Plan
           </Typography>
@@ -26,21 +29,22 @@ const SelectPlan = () => {
         <Grid container className={classes.planContainer}>
           {planData.map((item, index) => {
             return (
-              <Grid item xs={12} sm={6} md={3} lg={4} key={"plan-item" + index}>
+              <Grid item xs={12} sm={6} md={4} lg={4} key={"plan-item" + index}>
                 <PlanCard
                   key={"plan-item-card" + index}
                   {...item}
                   selected={enrollmentForm.plan === item.key}
                   color={colorsList[index]}
-                  handlePlanSelect={() =>
-                    handleSetForm({ name: "plan", value: item.key })
-                  }
+                  handlePlanSelect={() => {
+                    handleSetForm({ name: "plan", value: item.key });
+                    moveForward();
+                  }}
                 />
               </Grid>
             );
           })}
         </Grid>
-        <Grid item style={{ marginBottom: 15 }}>
+        <Grid item style={{ marginBottom: 15, marginTop: 50 }}>
           <ol style={{ listStyle: "none" }}>
             <li>
               <Typography
@@ -77,19 +81,6 @@ const SelectPlan = () => {
             </li>
           </ol>
         </Grid>
-        {enrollmentForm.plan !== "" && (
-          <Grid item xs={12} className={classes.footer}>
-            <div style={{ display: "inline-block" }}>
-              <Button
-                color="primary"
-                className={classes.transparentButton}
-                onClick={handleContinue}
-              >
-                Continue
-              </Button>
-            </div>
-          </Grid>
-        )}
       </Grid>
     </Container>
   );

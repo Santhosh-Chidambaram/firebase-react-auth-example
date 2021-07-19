@@ -56,7 +56,7 @@ const uploadArrayOfImages = (myArray) => {
   const promises = myArray.map(async (item) => {
     return {
       className: item.className,
-      studentRoasterUrl: await handleUploadToBucket(item.roasterFile),
+      studentRosterUrl: await handleUploadToBucket(item.rosterFile),
     };
   });
   return Promise.all(promises);
@@ -66,27 +66,27 @@ export const generateEnrollDocument = async (uid, enrollmentData) => {
   try {
     const enrollDoc = firestore.doc(`enrollements/${uid}`);
     const snapshot = await enrollDoc.get();
-    let studentRoasters = [];
-    let teacherRoasterUrl;
+    let studentRosters = [];
+    let teacherRosterUrl;
     if (!snapshot.exists) {
-      const { plan, studentRoaster, teacherRoaster } = enrollmentData;
+      const { plan, studentRoster, teacherRoster } = enrollmentData;
 
-      studentRoasters = await uploadArrayOfImages(studentRoaster);
+      studentRosters = await uploadArrayOfImages(studentRoster);
 
-      teacherRoasterUrl = await handleUploadToBucket(teacherRoaster);
+      teacherRosterUrl = await handleUploadToBucket(teacherRoster);
 
-      console.log(studentRoasters, teacherRoasterUrl, plan);
+      console.log(studentRosters, teacherRosterUrl, plan);
       await enrollDoc.set({
         plan,
-        studentRoasters,
-        teacherRoasterUrl,
+        studentRosters,
+        teacherRosterUrl,
       });
 
       return "Success";
     }
     throw new Error("EnrollMent Already Exists");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

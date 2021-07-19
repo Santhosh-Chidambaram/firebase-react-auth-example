@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover": {
       opacity: 0.85,
-      transform: "scale(1.05)",
+      transform: "scale(1.09)",
       transition: "all 100ms ease-in",
     },
   },
@@ -68,18 +68,18 @@ const PlanCard = ({
       style={{ backgroundColor: color, cursor: "pointer" }}
       onClick={handlePlanSelect}
     >
-      {selected && (
+      {/* {selected && (
         <CheckFilled
           fill="#fff"
           width="25"
           height="25"
           style={{
             position: "absolute",
-            top: 5,
-            right: 10,
+            top: 20,
+            right: 20,
           }}
         />
-      )}
+      )} */}
       <CardContent className={classes.cardContent}>
         <Typography className={classes.title} variant="h4" component="h4">
           {title}

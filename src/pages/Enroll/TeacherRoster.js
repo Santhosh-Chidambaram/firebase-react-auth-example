@@ -23,7 +23,7 @@ const TeacherRoaster = () => {
     if (inputRef && inputRef.current && event.target.files[0]) {
       console.log(event.target.files[0]);
       handleSetForm({
-        name: "teacherRoaster",
+        name: "teacherRoster",
         value: event.target.files[0],
       });
     }
@@ -33,7 +33,7 @@ const TeacherRoaster = () => {
       <Grid container lg={10}>
         <Grid item className={classes.header}>
           <Typography className={classes.heading} variant="h3" component="h4">
-            Upload Teacher Roaster
+            Upload Teacher Roster
           </Typography>
         </Grid>
 
@@ -45,7 +45,7 @@ const TeacherRoaster = () => {
           </Typography>
           <Grid item className={classes.uploadBtnWrapper}>
             <input
-              accept=".pdf,.xls,.csv,.doc,.docx,"
+              accept=".pdf,.xls,.csv,.doc,.docx,.png,.jpg"
               style={{ display: "none" }}
               id="teacher-roaster-file"
               type="file"
@@ -57,7 +57,7 @@ const TeacherRoaster = () => {
               variant="h6"
               component="h6"
             >
-              {enrollmentForm?.teacherRoaster?.name}
+              {enrollmentForm?.teacherRoster?.name}
             </Typography>
             <Button
               variant="contained"
@@ -65,7 +65,7 @@ const TeacherRoaster = () => {
               className={classes.uploadButton}
               onClick={handleUploadBtnClick}
             >
-              Upload
+              Upload Teacher Roster
             </Button>
           </Grid>
         </Grid>

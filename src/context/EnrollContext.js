@@ -50,14 +50,14 @@ const EnrollContextProvider = (props) => {
 
   const [enrollmentForm, setEnrollmentForm] = React.useState({
     plan: "",
-    studentRoaster: [
+    studentRoster: [
       {
         key: generateId(3),
         className: "",
-        roasterFile: null,
+        rosterFile: null,
       },
     ],
-    teacherRoaster: null,
+    teacherRoster: null,
   });
   const [isUploading, setIsUploading] = useState(false);
 
@@ -71,57 +71,57 @@ const EnrollContextProvider = (props) => {
   };
 
   //Function to update the value in studentRoasterList
-  const updateStudentRoaster = (roasterForm) => {
-    const updatedStudentRoaster = enrollmentForm.studentRoaster.map((item) => {
-      if (item.key === roasterForm.key) {
-        item = roasterForm;
+  const updateStudentRoaster = (rosterForm) => {
+    const updatedStudentRoaster = enrollmentForm.studentRoster.map((item) => {
+      if (item.key === rosterForm.key) {
+        item = rosterForm;
         return item;
       }
       return item;
     });
     setEnrollmentForm({
       ...enrollmentForm,
-      studentRoaster: updatedStudentRoaster,
+      studentRoster: updatedStudentRoaster,
     });
   };
 
   //Function to add class in studentRoaster
   const handleAddClass = () => {
-    const newStudentRoaster = [...enrollmentForm.studentRoaster];
+    const newStudentRoster = [...enrollmentForm.studentRoster];
 
-    newStudentRoaster.push({
+    newStudentRoster.push({
       key: generateId(3),
       className: "",
       roasterFile: null,
     });
     setEnrollmentForm({
       ...enrollmentForm,
-      studentRoaster: newStudentRoaster,
+      studentRoster: newStudentRoster,
     });
   };
 
   //Function to check if studentRoaster is Filled and proceed to Next
   const handleSRContinue = () => {
     if (
-      !enrollmentForm.studentRoaster[0].roasterFile &&
-      enrollmentForm.studentRoaster[0].className === ""
+      !enrollmentForm.studentRoster[0].rosterFile &&
+      enrollmentForm.studentRoster[0].className === ""
     ) {
       setAlertState({
         ...alertState,
         open: true,
-        message: "Classname and Student Roaster File is not filled",
+        message: "Classname and Student Roster File is not filled",
       });
       return;
     }
-    if (!enrollmentForm.studentRoaster[0].roasterFile) {
+    if (!enrollmentForm.studentRoster[0].rosterFile) {
       setAlertState({
         ...alertState,
         open: true,
-        message: "Student Roaster File is not uploaded",
+        message: "Student Roster File is not uploaded",
       });
       return;
     }
-    if (enrollmentForm.studentRoaster[0].className === "") {
+    if (enrollmentForm.studentRoster[0].className === "") {
       setAlertState({
         ...alertState,
         open: true,
@@ -133,9 +133,9 @@ const EnrollContextProvider = (props) => {
     moveForward();
   };
 
-  //Function to check if teacher is Filled and proceed to Next
+  //Function to check if teacherRoaster is Filled and proceed to Next
   const handleTRContinue = async () => {
-    if (!enrollmentForm.teacherRoaster) {
+    if (!enrollmentForm.teacherRoster) {
       setAlertState({
         ...alertState,
         open: true,

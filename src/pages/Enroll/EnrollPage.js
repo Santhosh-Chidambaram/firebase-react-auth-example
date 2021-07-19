@@ -7,6 +7,7 @@ import StudentRoster from "./StudentRoster";
 import TeacherRoster from "./TeacherRoster";
 import LoadingBackdrop from "./../../components/LoadingBackdrop";
 import { useEnrollContext } from "../../context/EnrollContext";
+import HeaderTab from "../../components/HeaderTab";
 const swiperViewStyle = {
   overflowX: "hidden",
   height: "100%",
@@ -34,6 +35,7 @@ const EnrollPage = () => {
         message={alertState.message}
         type="error"
       />
+      <HeaderTab />
       <SwipeableViews
         disabled={true}
         style={swiperViewStyle}

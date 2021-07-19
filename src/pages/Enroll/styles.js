@@ -12,14 +12,16 @@ export const useEnrollStyles = makeStyles((theme) => ({
     },
   },
   header: {
-    alignSelf: "flex-end",
-    marginBottom: theme.spacing(4),
+    alignSelf: "center",
+    marginBottom: theme.spacing(2),
   },
   title: {
     width: "100%",
     fontWeight: "bold",
+    fontSize: 35,
     [theme.breakpoints.down("sm")]: {
       textAlign: "center",
+      fontSize: 30,
     },
   },
   planContainer: {
@@ -57,19 +59,25 @@ export const useEnrollStyles = makeStyles((theme) => ({
   },
   uploadButton: {
     borderRadius: 15,
+    border: "none",
+    outline: "none",
     padding: "5px 35px",
     textTransform: "capitalize",
     fontSize: 18,
+    backgroundColor: "orange",
   },
   rowContainer: {
+    marginBottom: theme.spacing(4),
+  },
+  rowItem: {
     display: "flex",
-    alinItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "cneter",
     marginBottom: theme.spacing(4),
   },
   transparentButton: {
-    fontSize: 18,
-    fontWeight: "500",
+    fontSize: 19,
+    fontWeight: "550",
     textTransform: "capitalize",
   },
   footer: {
